@@ -1,3 +1,24 @@
 <resources>
-    <string name="app_name">DevIntensive</string>
+    <string name="app_name">Овчелупов Антон</string>
+    <string name="str_vk_profile">Профиль VK</string>
+    <string name="str_email">E-mail</string>
+    <string name="str_phone">Мобильный телефон</string>
+    <string name="str_projects">Проектов</string>
+    <string name="str_code_lines">Написано строк кода</string>
+    <string name="str_rating">Рейтинг</string>
+    <string name="str_repo">Репозиторий</string>
+    <string name="str_about">О себе</string>
+    <string name="str_about_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum sit amet orci arcu.
+        Etiam ac blandit mauris. Proin dapibus magna at eros pharetra vehicula. Phasellus eget feugiat mi, sit amet imperdiet
+        diam. Donec non metus ac mauris semper mattis eu at tortor. Phasellus sit amet ante ut massa scelerisque pellentesque.
+        Nullam facilisis auctor magna, sed posuere magna imperdiet vitae. Pellentesque habitant morbi tristique senectus et
+        netus et malesuada fames ac turpis egestas. Nulla ultrices gravida placerat. In et ornare nisi. Fusce sed ex molestie,
+        iaculis libero vitae, dapibus sem. Vestibulum sed faucibus lectus, eu porta ante. Nulla augue purus, posuere at nibh
+        vitae, faucibus cursus ipsum. Nunc scelerisque magna eu dui cursus, a ultricies odio laoreet. In vel porta sem.
+        Suspendisse id efficitur nibh, quis vehicula tellus.\n\n
+        Nulla lobortis ipsum sed nunc dignissim, eu euismod orci sagittis. Nulla facilisi. Mauris euismod enim augue, at congue
+        felis sodales non. Fusce faucibus diam ut lorem fringilla dapibus. Vestibulum vestibulum mattis felis nec hendrerit.
+        Nullam imperdiet urna lorem, dictum eleifend erat viverra commodo. Pellentesque ut ante pharetra, auctor erat a, volutpat
+        lorem. In sit amet accumsan nisl, a tincidunt erat. Pellentesque ut gravida eros. Integer ut auctor lorem, vel pretium
+        tortor.</string>
 </resources>
