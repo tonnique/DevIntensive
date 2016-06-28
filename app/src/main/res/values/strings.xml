@@ -21,4 +21,8 @@
         Nullam imperdiet urna lorem, dictum eleifend erat viverra commodo. Pellentesque ut ante pharetra, auctor erat a, volutpat
         lorem. In sit amet accumsan nisl, a tincidunt erat. Pellentesque ut gravida eros. Integer ut auctor lorem, vel pretium
         tortor.</string>
+
+    <string name="menu_profile">Мой профиль</string>
+    <string name="menu_team">Команда</string>
+
 </resources>

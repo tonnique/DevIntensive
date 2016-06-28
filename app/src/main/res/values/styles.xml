@@ -1,21 +1,105 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
     </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <!-- Icon Styles -->
+    <style name="Icon">
+        <item name="android:layout_width">@dimen/size_small_24</item>
+        <item name="android:layout_height">@dimen/size_small_24</item>
+    </style>
+    <style name="Icon.Left">
+        <item name="android:layout_gravity">top|left</item>
+        <item name="android:layout_marginTop">@dimen/spacing_medial_24</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_normal_16</item>
+    </style>
+    <style name="Icon.Right">
+        <item name="android:layout_gravity">top|right</item>
+        <item name="android:layout_marginTop">@dimen/spacing_medial_24</item>
+        <item name="android:layout_marginRight">@dimen/spacing_medium_32</item>
+    </style>
+
+    <!-- User Info Styles -->
+    <style name="UserInfoBlock">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="UserInfoDivider">
+        <item name="android:layout_width">@dimen/line_size_2</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/grey_light</item>
+    </style>
+    <style name="UserInfoText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+    </style>
+    <style name="UserInfoText.Value">
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <!-- User Items Styles -->
+    <style name="UserItemBlock">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small_8</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_small_8</item>
+    </style>
+    <style name="UserItemTextWrapper">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/size_large_72</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">bottom</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_medium_32</item>
+        <item name="android:layout_marginRight">@dimen/spacing_normal_16</item>
+    </style>
+    <style name="UserItemTextWrapper.Multiline">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/spacing_normal_16</item>
+    </style>
+    <style name="UserItemEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textColorHint">@color/grey</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="UserItemDivider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/line_size</item>
+        <item name="android:background">@color/grey_light</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_larger_72</item>
+    </style>
+
     <!--information bar elements-->
     <style name="InformationBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/color_gray</item>
+        <item name="android:paddingTop">@dimen/spacing_normal_16</item>
+        <item name="android:paddingBottom">@dimen/spacing_normal_16</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingTop">@dimen/spacing_medial_24</item>
-        <item name="android:paddingBottom">@dimen/spacing_medial_24</item>
+        <item name="android:background">@color/grey</item>
+
+
     </style>
     <style name="InformationBarElement">
         <item name="android:layout_width">0dp</item>
@@ -25,74 +109,26 @@
         <item name="android:paddingLeft">@dimen/spacing_normal_16</item>
         <item name="android:paddingRight">@dimen/spacing_normal_16</item>
     </style>
-    <style name="InformationBarElement.Side" parent="InformationBarElement">
-        <item name="android:layout_weight">0.25</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-    <style name="InformationBarElement.Central" parent="InformationBarElement">
-        <item name="android:layout_weight">0.5</item>
-        <item name="android:layout_gravity">center</item>
-    </style>
-    <style name="InformationBarSeparator">
-        <item name="android:layout_width">@dimen/size_separator_1</item>
-        <item name="android:layout_height">@dimen/spacing_larger_72</item>
-        <item name="android:background">@color/color_gray_light</item>
-    </style>
+
+
     <style name="InformationBarText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/color_white</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
-    <style name="InformationBarText.Description" parent="InformationBarText">
-        <item name="android:textSize">@dimen/font_normal_15</item>
-    </style>
-    <style name="InformationBarText.Value" parent="InformationBarText">
-        <item name="android:textSize">@dimen/font_large_18</item>
-    </style>
+
     <!--information list elements-->
-    <style name="InformationListElement">
-        <item name="android:layout_width">match_parent</item>
+
+    <style name="custom_dialog">
+        <item name="android:fullDark">@android:color/transparent</item>
+    </style>
+
+    <style name="DrawerHeaderText">
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:layout_marginTop">@dimen/spacing_small_8</item>
-        <item name="android:layout_marginBottom">@dimen/spacing_small_8</item>
-    </style>
-    <style name="InformationListContent">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/size_large_72</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:layout_marginLeft">@dimen/spacing_medium_32</item>
-        <item name="android:layout_marginRight">@dimen/spacing_normal_16</item>
-    </style>
-    <style name="InformationListEditText">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/color_black</item>
-        <item name="android:textColorHint">@color/color_gray</item>
-        <item name="android:fontFamily">sans-serif-condensed</item>
-        <item name="android:enabled">false</item>
-        <item name="android:focusable">false</item>
-    </style>
-    <style name="InformationListSeparator">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/size_separator_1</item>
-        <item name="android:layout_marginLeft">@dimen/spacing_larger_72</item>
-        <item name="android:background">@color/color_gray_light</item>
-    </style>
-    <style name="Icon">
-        <item name="android:layout_width">@dimen/size_small_24</item>
-        <item name="android:layout_height">@dimen/size_small_24</item>
-        <item name="android:layout_marginTop">@dimen/spacing_medial_24</item>
-    </style>
-    <style name="Icon.Left">
-        <item name="android:layout_gravity">top|left</item>
-        <item name="android:layout_marginLeft">@dimen/spacing_normal_16</item>
-    </style>
-    <style name="Icon.Right">
-        <item name="android:layout_gravity">top|right</item>
-        <item name="android:layout_marginRight">@dimen/spacing_medium_32</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>
