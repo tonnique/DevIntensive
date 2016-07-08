@@ -24,5 +24,40 @@
 
     <string name="menu_profile">Мой профиль</string>
     <string name="menu_team">Команда</string>
+    <string name="user_profile.placeholder.image">Изменить фотографию профиля</string>
+    <string name="user_profile.dialog.gallery">Загрузить из галлереи</string>
+    <string name="user_profile.dialog.camera">Сделать снимок</string>
+    <string name="user_profile.dialog.cancel">Отмена</string>
+    <string name="user_profile.dialog.title">Изменить фотографию профиля</string>
+    <string name="user_profile.chose.message">Выберите фото</string>
+    <string name="snackbar_msg.edit_on">Редактирование включено</string>
+    <string name="snackbar_msg.data_saved">Данные сохранены</string>
+    <string name="validation.msg.phone">Введите номер телефона в формате\n +x xxx xxx-xx-xx (от 11 до 20 цифр)</string>
+    <string name="validation.msg.email">Недопустимый адрес электронной почты</string>
+    <string name="validation.msg.vk">Адрес аккаунта VK должен иметь формат vk.com/ххх</string>
+    <string name="validation.msg.git">Адрес аккаунта GitHub должен иметь формат github.com/ххх</string>
+    <string name="snackbar_msg.permissions_request">Для корректной работы приложения необходимо дать требуемые разрешения</string>
+    <string name="action.allow_permissions">Разрешить</string>
+    <string name="chooser_title.send_mail">Отправить сообщение</string>
+    <string name="user_auth.title">ВОЙТИ</string>
+    <string name="user_auth.email_hint">E-mail</string>
+    <string name="user_auth.password_hint">Пароль</string>
+    <string name="user_auth.login_button">Войти</string>
+    <string name="user_auth.forgot_password">Забыли пароль?</string>
+
+    <string name="user_profile.dummy.rating">5</string>
+    <string name="user_profile.dummy.codelines">5</string>
+    <string name="user_profile.dummy.projects">5</string>
+    <string name="user_profile.dummy.phone">+8 (911) 123-45-67</string>
+    <string name="user_profile.dummy.email">mymail@yandex.ru</string>
+    <string name="user_profile.dummy.vk">vk.com/antony2279</string>
+    <string name="user_profile.dummy.github">github.com/tonnique/DevIntensive</string>
+    <string name="user_profile.dummy.bio">@string/str_about_content</string>
+
+    <string name="validation.edit_mode.error">Есть неправильно заполненные поля.\nПроверте правильность заполнения и введите корректные данные</string>
+    <string name="load_photo.gallery.exception">Невозможно открыть фото из галлереи</string>
+    <string name="load_photo.camera.exception">Не загружается фото с камеры!</string>
+    <string name="load_photo.camera_exception.activityStart">Невозможно получить изображение с камеры!</string>
+    <string name="browsActivity.error">Невозможно открыть ссылку!</string>
 
 </resources>
