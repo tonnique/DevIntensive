@@ -2,21 +2,18 @@ package com.softdesign.devintensive.ui.activities;
 
 import android.Manifest;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.*;
 import android.content.pm.PackageManager;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.database.Cursor;
+import android.graphics.*;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.BoolRes;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.*;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -30,9 +27,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.*;
 
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.managers.DataManager;
@@ -41,18 +36,20 @@ import com.softdesign.devintensive.utils.Helper;
 import com.softdesign.devintensive.utils.ValidationEditText;
 import com.softdesign.devintensive.utils.DevTextWatcher;
 
-
 import com.squareup.picasso.Picasso;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -105,9 +102,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @BindViews({R.id.phone_et, R.id.email_et, R.id.vk_et, R.id.github_et, R.id.about_et})
     List<EditText> mUserInfoViews;
 
+    @BindView(R.id.user_rating_txt) TextView mUserValueRating;
+    @BindView(R.id.user_codelines_txt) TextView mUserValueCodeLines;
+    @BindView(R.id.user_projects_txt) TextView mUserValueProjects;
+
+    @BindViews({R.id.user_rating_txt, R.id.user_codelines_txt, R.id.user_projects_txt})
+    List<TextView> mUserValueViews;
+
     /**
      * вызывается при создании или перезапуске активности
-     *
      * @param savedInstanceState
      */
     @Override
@@ -129,13 +132,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mProfilePlaceholder.setOnClickListener(this);
 
         setupToolbar();
-        setupDrawer();
 
         loadUserInfoValues();
-        Picasso.with(this)
-                .load(mDataManager.getPreferencesManager().loadUserPhoto())
-                .placeholder(R.drawable.profile_image)
-                .into(mProfileImage);
+
+        setupDrawer();
+
+        initUserInfoValues();
+        initProfileImage();
+
 
         if (savedInstanceState == null) {
             // активность запускается впервые
@@ -330,12 +334,81 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * Выполняет инициализацию фотографии в профиле пользователя.
+     * Загружает фотографию с сервера. В случае неудачи использует локальное изображение.
+     */
+    private void initProfileImage() {
+        String photoURL = getIntent().getStringExtra(ConstantManager.USER_PHOTO_URL_KEY);
+        final Uri photoLocalUri = mDataManager.getPreferencesManager().loadUserPhoto();
+
+        Picasso.with(MainActivity.this)
+                .load(photoLocalUri)
+                .placeholder(R.drawable.user_bg)
+                .into(mProfileImage);
+
+        Call<ResponseBody> call = mDataManager.getImage(photoURL);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Bitmap bitmap = BitmapFactory.decodeStream(response.body().byteStream());
+                    if (bitmap != null) {
+                        mProfileImage.setImageBitmap(bitmap);
+                        try {
+                            File file = createImageFileFromBitmap("user_photo", bitmap);
+                            if (file != null) {
+                                mDataManager.getPreferencesManager()
+                                        .saveUserPhoto(Uri.fromFile(file));
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Helper.showSnackbar(mCoordinatorLayout, "Не удалось загрузить фотографию пользователя");
+            }
+        });
+    }
+
+    /**
+     * Загружает фотографию из профиля пользователя на сервер
+     * @param photoFile представление файла фотографии
+     */
+    private void uploadPhoto(File photoFile) {
+        Call<ResponseBody> call = mDataManager.uploadPhoto(photoFile);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("TAG", "Upload success");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Helper.showSnackbar(mCoordinatorLayout, "Не удалось загрузить фотографию на сервер");
+                //Log.e("Upload error", t.getMessage());
+            }
+        });
+    }
+
+    /**
      * Выполняет инициализацию выдвижной панели навигационного меню
      */
     private void setupDrawer() {
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         Helper.setupHeaderDrawerImage(this, navigationView, BitmapFactory.decodeResource(getResources(), R.drawable.avatar));
+
+        View headerView = navigationView.getHeaderView(0);
+
+        List<String> userNames = mDataManager.getPreferencesManager().loadUserName();
+        ((TextView)headerView.findViewById(R.id.user_name_txt))
+                .setText(String.format("%s %s", userNames.get(1), userNames.get(0)));
+        ((TextView)headerView.findViewById(R.id.user_email_txt))
+                .setText(mUserMail.getText());
 
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
@@ -497,6 +570,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * Загружает данные пользователя (рейтинг, строки кода, проекта) из Shared Preferences
+     * в текстовые поля заголовка профиля
+     */
+    private void initUserInfoValues() {
+        List<String> userData = mDataManager.getPreferencesManager().loadUserProfileValues();
+        for (int i = 0; i < userData.size(); i++) {
+            mUserValueViews.get(i).setText(userData.get(i));
+        }
+    }
+
+
+    /**
      * Загружаем фотографию из галлереи
      */
     private void loadPhotoFromGallery() {
@@ -616,7 +701,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     /**
      * Диалог загрузки фото из камеры или из галлереи
-     *
      * @param id
      * @return
      */
@@ -659,6 +743,62 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * Создает файл с для хранения изображения во внешнем хранилище
+     * @param imageFileName имя файла
+     * @param bitmap растровое изображение для сохранения в файле
+     * @return представление созданного файла изображения
+     * @throws IOException
+     */
+    private File createImageFileFromBitmap(String imageFileName, Bitmap bitmap) throws IOException {
+
+        // проверка разрешений для Android 6
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+
+            File storageDir = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+            File imageFile = null;
+            try {
+                imageFile = new File(storageDir, imageFileName + ".jpg");
+
+                FileOutputStream fos = new FileOutputStream(imageFile);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Android 6 ???: сохранение изображения с добавлением в галлерею
+            ContentValues values = new ContentValues();
+            values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+            values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+            values.put(MediaStore.MediaColumns.DATA, imageFile.getAbsolutePath());
+
+            this.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+            return imageFile;
+        } else {
+            // запрос разрешений на использование камеры и внешнего хранилища данных
+            ActivityCompat.requestPermissions(this, new String[] {
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+            }, ConstantManager.CAMERA_REQUEST_PERMISSION_CODE);
+
+            // предоставление пользователю возможности установить разрешения,
+            // если он ранее запретил их и выбрал опцию "не показывать больше"
+            Snackbar.make(mCoordinatorLayout, R.string.snackbar_msg_permissions_request, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.action_allow_permissions, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            openApplicationSettings();
+                        }
+                    }).show();
+
+            return null;
+        }
+
+    }
+
+    /**
      * Вставляем выбранное фото в профайл с заданным URI, сохраняет URI в Shared Preferences
      * @param selectedImage URI изображения
      */
@@ -668,7 +808,40 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .placeholder(R.drawable.profile_image)
                 .into(mProfileImage);
 
-        mDataManager.getPreferencesManager().saveUserPhoto(selectedImage);
+        // если URI фотографии изменился
+        if (!selectedImage.equals(mDataManager.getPreferencesManager().loadUserPhoto())) {
+
+            if (selectedImage.getLastPathSegment().endsWith(".jpg")) {
+                uploadPhoto(new File(selectedImage.getPath()));
+            } else {
+                uploadPhoto(new File(getPath(selectedImage)));
+            }
+
+            mDataManager.getPreferencesManager().saveUserPhoto(selectedImage);
+        }
+
+        //mDataManager.getFileUploader().uploadFile(selectedImage);
+
+    }
+
+    /**
+     * Возвращает путь к файлу для заданного URI
+     * (используется для корректной выгрузки на сервер при выборе файла в галерее)
+     * @param uri URI файла
+     * @return путь к файлу
+     */
+    //@Nullable
+    private String getPath(Uri uri) {
+        String[] projection = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(uri, projection, null, null, null);
+        if (cursor == null) {
+            return null;
+        }
+        int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        String path = cursor.getString(columnIndex);
+        cursor.close();
+        return path;
     }
 
     /**
@@ -754,7 +927,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * @param url URL-адрес
      */
     private void browseUrl(String url) {
-        url = "https://" + url;
+        //url = "https://" + url;
+        url = url;
 
         Intent browseIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         try {
