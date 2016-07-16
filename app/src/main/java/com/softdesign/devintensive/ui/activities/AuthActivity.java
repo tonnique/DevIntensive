@@ -85,9 +85,9 @@ public class AuthActivity extends BaseActivity implements View.OnClickListener {
         saveUserName(userModel);
 
         Intent loginIntent = new Intent(this, MainActivity.class);
-        loginIntent.putExtra(ConstantManager.USER_PHOTO_URL_KEY,
+        loginIntent.putExtra(ConstantManager.USER_PHOTO_KEY,
                 userModel.getData().getUser().getPublicInfo().getPhoto());
-        loginIntent.putExtra(ConstantManager.USER_AVATAR_URL_KEY,
+        loginIntent.putExtra(ConstantManager.USER_AVATAR_KEY,
                 userModel.getData().getUser().getPublicInfo().getAvatar());
         startActivity(loginIntent);
     }

@@ -338,7 +338,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * Загружает фотографию с сервера. В случае неудачи использует локальное изображение.
      */
     private void initProfileImage() {
-        String photoURL = getIntent().getStringExtra(ConstantManager.USER_PHOTO_URL_KEY);
+        String photoURL = getIntent().getStringExtra(ConstantManager.USER_PHOTO_KEY);
         final Uri photoLocalUri = mDataManager.getPreferencesManager().loadUserPhoto();
 
         Picasso.with(MainActivity.this)
@@ -379,7 +379,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
      * @param photoFile представление файла фотографии
      */
     private void uploadPhoto(File photoFile) {
-        Call<ResponseBody> call = mDataManager.uploadPhoto(photoFile);
+        Call<ResponseBody> call = mDataManager.uploadPhoto(
+                mDataManager.getPreferencesManager().getUserId(), photoFile);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

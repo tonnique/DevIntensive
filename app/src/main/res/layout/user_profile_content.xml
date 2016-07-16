@@ -74,7 +74,7 @@
             style="@style/UserItemBlock">
 
             <ImageView
-                style="@style/Icon.Left"
+                style="@style/icon.left"
                 android:src="@drawable/ic_call_black_24dp"/>
 
             <LinearLayout
@@ -99,7 +99,7 @@
 
             <ImageView
                 android:id="@+id/call_img"
-                style="@style/Icon.Right"
+                style="@style/icon.right"
                 android:src="@drawable/ic_phone_in_talk_black_24dp"/>
 
         </LinearLayout>
@@ -111,7 +111,7 @@
             style="@style/UserItemBlock">
 
             <ImageView
-                style="@style/Icon.Left"
+                style="@style/icon.left"
                 android:src="@drawable/ic_email_black_24dp"/>
 
             <LinearLayout
@@ -136,7 +136,7 @@
 
             <ImageView
                 android:id="@+id/send_img"
-                style="@style/Icon.Right"
+                style="@style/icon.right"
                 android:src="@drawable/ic_send_black_24dp"/>
 
         </LinearLayout>
@@ -148,7 +148,7 @@
             style="@style/UserItemBlock">
 
             <ImageView
-                style="@style/Icon.Left"
+                style="@style/icon.left"
                 android:src="@drawable/vk_circle"/>
 
             <LinearLayout
@@ -174,7 +174,7 @@
 
             <ImageView
                 android:id="@+id/vk_img"
-                style="@style/Icon.Right"
+                style="@style/icon.right"
                 android:src="@drawable/ic_visibility_black_24dp"/>
         </LinearLayout>
 
@@ -185,7 +185,7 @@
             style="@style/UserItemBlock">
 
             <ImageView
-                style="@style/Icon.Left"
+                style="@style/icon.left"
                 android:src="@drawable/github_circle"/>
 
             <LinearLayout
@@ -211,7 +211,7 @@
 
             <ImageView
                 android:id="@+id/git_img"
-                style="@style/Icon.Right"
+                style="@style/icon.right"
                 android:src="@drawable/ic_visibility_black_24dp"/>
 
         </LinearLayout>
@@ -223,7 +223,7 @@
             style="@style/UserItemBlock">
 
             <ImageView
-                style="@style/Icon.Left"
+                style="@style/icon.left"
                 android:src="@drawable/ic_account_circle_black_24dp"/>
 
             <LinearLayout

@@ -62,4 +62,5 @@ public class Helper {
 
         return image;
     }
+
 }
