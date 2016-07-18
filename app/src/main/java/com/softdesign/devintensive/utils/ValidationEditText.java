@@ -61,4 +61,5 @@ public class ValidationEditText {
 
         return true;
     }
+
 }
